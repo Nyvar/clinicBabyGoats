@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sisis", $date, $doctorId, $patientName, $age, $gender);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Appointment booked successfully!'); window.location='bookAppointment.php';</script>";
+        echo "<script>alert('Appointment booked successfully!'); window.location='admin.php';</script>";
     } else {
         echo "Error: " . $stmt->error;
     }

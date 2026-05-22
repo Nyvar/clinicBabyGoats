@@ -6,8 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role     = $_POST['role'];
 
-    $stmt = $conn->prepare("INSERT INTO tblUser (Username, PasswordHash, Role) VALUES (?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO tbluser (Username, PasswordHash, Role) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $username, $password, $role);
+  
 
     if ($stmt->execute()) {
         echo "<script>alert('Registration successful!'); window.location='login.php';</script>";

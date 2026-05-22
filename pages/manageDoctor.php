@@ -5,7 +5,7 @@ include("../connect_db.php"); // assumes $con is created here
 $search = isset($_GET['search']) ? trim($_GET['search']) : "";
 
 // Base SQL
-$sql = "SELECT DoctorID, Name, Gender, Specialization FROM tbldoctor";
+$sql = "SELECT UserID, Username FROM tbluser WHERE role='Doctor'";
 
 // Add filtering if search term exists
 if ($search !== "") {
@@ -13,7 +13,7 @@ if ($search !== "") {
     $sql .= " WHERE Name LIKE '%$safeSearch%' OR Description LIKE '%$safeSearch%'";
 }
 
-$sql .= " ORDER BY doctorID ASC";
+$sql .= " ORDER BY UserID ASC";
 $result = $con->query($sql);
 ?>
 <!DOCTYPE html>
@@ -62,10 +62,10 @@ $result = $con->query($sql);
         <?php if ($result && $result->num_rows > 0): ?>
           <?php while($row = $result->fetch_assoc()): ?>
             <tr>
-              <td><?php echo htmlspecialchars($row["TreatmentID"]); ?></td>
-              <td><?php echo htmlspecialchars($row["Name"]); ?></td>
-              <td><?php echo htmlspecialchars($row["Gender"]); ?></td>
-              <td><?php echo htmlspecialchars($row["Specialization"]); ?></td>
+              <td><?php echo htmlspecialchars($row["UserID"]); ?></td>
+              <td><?php echo htmlspecialchars($row["Username"]); ?></td>
+              <td>N/A</td>
+              <td>Doctor</td>
             </tr>
           <?php endwhile; ?>
         <?php else: ?>

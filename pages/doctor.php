@@ -1,3 +1,8 @@
+<?php
+include("../connect_db.php");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,26 +165,30 @@
 <div class="main">
   <div class="header">Doctor Dashboard</div>
   <div class="grid">
-    <!-- Upcoming Appointments -->
-    <div class="card">
-      <h3>Upcoming Appointments</h3>
-      <div class="appointment">
-        <div class="time">9:00 AM</div>
-        <div class="details">John Cena (Room 2)</div>
-      </div>
-      <div class="appointment">
-        <div class="time">10:30 AM</div>
-        <div class="details">Peter Parker (Room 5)</div>
-      </div>
-      <div class="appointment">
-        <div class="time">11:00 AM</div>
-        <div class="details">Jaime Lannister (Room 1)</div>
-      </div>
-      <div class="appointment">
-        <div class="time">12:00 PM</div>
-        <div class="details">Robb Stark (Room 3)</div>
-      </div>
-    </div>
+    <?php 
+          $sql = "SELECT Date, DoctorID, PatientName, Age,Gender
+              FROM tblAppointment 
+              ORDER BY Date ASC";
+
+      $result = $con->query($sql);
+      ?>
+
+      <!-- Upcoming Appointments -->
+      <div class="card">
+        <h3>Upcoming Appointments</h3>
+        <?php while($row = $result->fetch_assoc()): ?>
+          <div class="appointment">
+            <div class="time">
+              <?php echo date("g:i A", strtotime($row['Date'])); ?>
+            </div>
+            <div class="details">
+              <?php echo $row['PatientName']; ?> 
+              <?php echo $row['Age']; ?> 
+              <?php echo $row['Gender']; ?> 
+            </div>
+          </div>
+        <?php endwhile; ?>
+</div>
 
     <!-- Today’s Tasks -->
     <div class="card">

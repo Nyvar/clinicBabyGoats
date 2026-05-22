@@ -3,13 +3,18 @@ session_start();
 include("../connect_db.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo "<script>alert('smt')</script>";
     $username = $_POST['username'];
     $password = $_POST['password'];
+    // echo $username;
+    
 
-    $stmt = $conn->prepare("SELECT UserID, PasswordHash, Role FROM tblUser WHERE Username=?");
+    $stmt = $con->prepare("SELECT UserID, PasswordHash, Role FROM tbluser WHERE Username=?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
+
+    // echo "<script>alert('fount user')</script>";
 
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($userId, $hashedPassword, $role);
@@ -18,16 +23,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['UserID'] = $userId;
             $_SESSION['Role']   = $role;
+            // echo $role;
 
             // Redirect based on role
-            if ($role == 'admin') {
-                header("Location: adminDashboard.php");
-            } elseif ($role == 'doctor') {
-                header("Location: doctorDashboard.php");
-            } elseif ($role == 'patient') {
-                header("Location: patientDashboard.php");
-            } elseif ($role == 'nurse') {
-                header("Location: nurseDashboard.php");
+            if ($role == 'Admin') {
+                header("Location: admin.php");
+                // echo "<script>alert('login')</script>";
+            } elseif ($role == 'Doctor') {
+                header("Location: doctor.php");
             }
             exit;
         } else {
